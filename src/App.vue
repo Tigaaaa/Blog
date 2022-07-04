@@ -8,7 +8,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 html{
   padding: 0;
   margin: 0;
@@ -64,7 +64,7 @@ body{
     padding:0.5rem;
     margin-left:1rem;
     border-radius:0.5rem;
-    background-color:rgb(164, 187, 230);
+    background-color:$blue-bot;
     user-select:none;
 
     float:left;

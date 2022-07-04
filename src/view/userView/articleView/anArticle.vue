@@ -58,7 +58,7 @@ export default{
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .title{
     margin:1rem;
     font-size:2.5rem;
@@ -66,21 +66,21 @@ export default{
 .tags{
     margin:1rem;
     width:80%;
-}
-.tags:after{
-    display:block;
-    content:"";
-    clear:both;
+    &:after{
+        display:block;
+        content:"";
+        clear:both;
+    }
 }
 
 .content{
     margin:1rem;
-    border:1px solid #ccc;
+    border:1px solid $border-col;
     background-color:#fff;
 }
 .time{
     margin:1rem;
-    color:#bbb;
+    color:$border-col;
     float:right;
 }
 </style>

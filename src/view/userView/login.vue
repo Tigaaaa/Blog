@@ -124,10 +124,10 @@ export default{
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .log-reg-box,.inp,.bt div,.out-bt{
-    border: 0.1rem solid #00FFFF;
-    box-shadow:0 0 0.2rem #00FFFF;
+    border: 0.1rem solid $login-bod;
+    box-shadow:0 0 0.2rem $login-bod;
 }
 .log-reg-box{
     position:absolute;
@@ -139,6 +139,15 @@ export default{
 
     backface-visibility:hidden;
     transition:1s;
+
+    input{
+        width:70%;
+        height:2rem;
+        border:none;
+        outline:none;
+        font-size:0.5rem;
+        background:transparent;
+    }
 }
 .before{
     transform:rotateY(-180deg);
@@ -163,23 +172,18 @@ export default{
     float: right;
 }
 .err{
-    border:0.1rem solid #F62217;
-    box-shadow: 0 0 0.5rem #F62217;
-}
-.errt span{ 
-    color:#F62217;
-    float:right;
-}
-.log-reg-box input{
-    width:70%;
-    height:2rem;
-    border:none;
-    outline:none;
-    font-size:0.5rem;
-    background:transparent;
+    border:0.1rem solid $err-col;
+    box-shadow: 0 0 0.5rem $err-col;
+    span{ 
+        color:$err-col;
+        float:right;
+    }
 }
 .bt{
     line-height:3rem;
+    a{
+        float:right;
+    }
 }
 .bt div,.out-bt{
     width: 15rem;
@@ -190,10 +194,6 @@ export default{
     user-select:none;
     float:left;
 }
-.bt a{
-    float:right;
-}
-
 .out{
     text-align:center;
 }

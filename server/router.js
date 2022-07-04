@@ -23,5 +23,6 @@ router.get('/article/cont',article.getArtCont)
 
 router.post('/comment/postCom',comment.postCom)
 router.get('/comment/getCom',comment.getCom)
+router.get('/comment/getChildCom',comment.getChildCom)
 router.get('/comment/select',comment.selectCom)
 module.exports=router

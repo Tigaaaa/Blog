@@ -54,12 +54,16 @@ export const addTag=(name)=>{
 }
 
 export const getCom=(offset,limit)=>axios.get('/comment/getCom?offset='+offset+'&limit='+limit);
+export const getChildCom=(id)=>axios.get('/comment/getChildCom?fatherId='+id);
 export const selectCom=(id)=>axios.get('/comment/select?id='+id);
-export const postCom=(name,content)=>{
+export const postCom=(com)=>{
     return axios.post('/comment/postCom',{
         params:{
-            name:name,
-            content:content
+            name:com.userName,
+            content:com.content,
+            fatherId:com.fatherId,
+            preId:com.preId,
+            preName:com.preName
         }
     })
 }

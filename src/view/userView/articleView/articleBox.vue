@@ -36,11 +36,11 @@
     height:85%;
     background:black;
     position:relative;
-}
-.articleCover a{
-    width:90%;
-    height:85%;
-    position:absolute;
+    a{
+        width:90%;
+        height:85%;
+        position:absolute;
+    }
 }
 .title{
     font-size:2.5rem;

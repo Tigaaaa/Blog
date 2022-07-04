@@ -29,14 +29,14 @@ import useLoad from '@/hook/useLoad'
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .scroll-warp{
     width:100%;
     height:100%;
     overflow-y:scroll;
-}
-.scroll-warp::-webkit-scrollbar{
-    width:0;
+    &::-webkit-scrollbar{
+        width:0;
+    }
 }
 ul{
     display:flex;
@@ -53,7 +53,7 @@ li{
     height:4rem;
     line-height:4rem;
     background-color:#fff;
-    border-top:0.1rem solid #ddd;
+    border-top:0.1rem solid $border-col;
     text-align:center;
 }
 </style>

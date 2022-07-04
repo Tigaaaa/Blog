@@ -135,21 +135,21 @@ export default{
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .title{
     width:50%;
     height:3.5rem;
     background-color:white;
     border-radius:0.5rem;
-    border:1px solid rgb(119, 223, 255);
+    border:1px solid #border-col;
     margin:1rem;
     padding-left:1rem;
     display:flex;
     align-items:center;
-    
-}
-.title input{
-    font-size:0.5rem;
+
+    input{
+        font-size:0.5rem;
+    }
 }
 
 .tags-choose{
@@ -176,7 +176,7 @@ export default{
 .all-tags{
     z-index:999;
     background-color:#fff;
-    border:1px solid #ccc;
+    border:1px solid $border-col;
     position:absolute;
     left:52%;
 }
@@ -196,8 +196,11 @@ export default{
     width:0;
 }
 .exp-bt,.col-bt{
-    border-top:0.8rem solid transparent;
-    border-bottom:0.8rem solid transparent;
+    border:
+    {
+        top:0.8rem solid transparent;
+        bottom:0.8rem solid transparent;
+    }
     position:absolute;
     left:1rem;
     top:1rem;
@@ -211,24 +214,24 @@ export default{
 
 .tag-list{
     width:100%;
-}
-.tag-list:after{
-    display:block;
-    content:'';
-    clear:both;
-}
-.tag-list .tag{
-    margin-top:1rem;
+    &:after{
+        display:block;
+        content:'';
+        clear:both;
+    }
+    .tag{
+        margin-top:1rem;
+    }
 }
 .has-cho{
-    background-color:rgb(141, 170, 223);
+    background-color:$blue-bot-c;
     color:#fff;
 }
 
 button{
     width:10rem;
     height:3.5rem;
-    background:rgb(164, 187, 230);
+    background:$blue-bot;
     border:0.1rem solid white;
     border-radius:0.5rem;
     margin:1rem;

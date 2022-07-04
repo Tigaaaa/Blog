@@ -57,33 +57,35 @@ import {reactive,toRefs} from 'vue'
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 ul{
     padding:1rem;
 }
 li{
     height:5rem;
 }
-li div,li button{
-    height:3.5rem;
-    line-height:3.5rem;
-    border-radius:1rem;
-    margin-left:0.5rem;
-    border:none;
-    float:left;
+li{
+    div,button{
+        height:3.5rem;
+        line-height:3.5rem;
+        border-radius:1rem;
+        margin-left:0.5rem;
+        border:none;
+        float:left;
+    }
 }
 .title{
     width:45%;
     background-color:#fff;
-}
-.title p{
-    width:90%;
-    margin-left:1rem;
-    font-size:1.6rem;
+    p{
+        width:90%;
+        margin-left:1rem;
+        font-size:1.6rem;
+    }
 }
 .mod,.del{
     width:20%;
-    background-color:rgb(164, 187, 230);
+    background-color:$blue-bot;
 }
 
 @keyframes out{
