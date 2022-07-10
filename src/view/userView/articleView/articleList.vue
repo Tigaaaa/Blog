@@ -1,7 +1,9 @@
 <template>
     <div class="scroll-warp" @scroll="onScroll">
         <ul>
-            <li v-for="art in list" :key="art.id"><articleBox :title="art.title" :id="art.id"/></li>
+            <li v-for="art in list" :key="art.id">
+                <articleBox :title="art.title" :id="art.id" :coverUrl="art.coverUrl"/>
+            </li>
         </ul>
         <div class="bot">{{load}}</div>
     </div>
@@ -37,23 +39,24 @@ import useLoad from '@/hook/useLoad'
     &::-webkit-scrollbar{
         width:0;
     }
+    ul{
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:space-evenly;
+        li{
+            width:90%;
+            height:25rem;
+            margin:1.5rem 0;
+        }
+    }
+    .bot{
+        height:4rem;
+        line-height:4rem;
+        background-color:#fff;
+        border-top:0.1rem solid $border-col;
+        text-align:center;
+    }
 }
-ul{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:space-evenly;
-}
-li{
-    width:90%;
-    height:25rem;
-    margin:1.5rem 0;
-}
-.bot{
-    height:4rem;
-    line-height:4rem;
-    background-color:#fff;
-    border-top:0.1rem solid $border-col;
-    text-align:center;
-}
+
 </style>

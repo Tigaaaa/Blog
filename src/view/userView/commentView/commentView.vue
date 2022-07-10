@@ -21,7 +21,10 @@
         <div class="bot">{{load}}</div>
     </div>
     <div class="com-bottom" :class="{lock:isLock}">
-        <span @click="cancelCom"></span>
+        <el-icon  @click="cancelCom">
+            <ArrowLeftBold v-show="preId"/>
+            <ArrowDownBold v-show="!preId"/>
+        </el-icon>
         <div class="inp">
             <p v-if="preName">对 {{preName}} 说：</p>
             <input v-model="content" placeholder="说点什么吧~" @focus="isLock=true">
@@ -203,12 +206,9 @@ export default{
         border:1px solid $border-col;
         user-select:none; 
     }
-    span{
-        border:{
-            top:0.5rem solid transparent;
-            bottom:0.5rem solid transparent;
-            right:1rem solid $border-col;
-        }
+    .el-icon{
+        width:1rem;
+        height:1rem;
     }
 }
 .lock{

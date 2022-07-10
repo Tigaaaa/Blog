@@ -21,6 +21,18 @@
             </ul>
         </div>
     </div>
+    <el-upload
+    class="avatar-uploader"
+    :action="setUrl()"
+    :headers="getHeaders"
+    :data="imgInfo"
+    name="img"
+    :show-file-list="false"
+    :on-success="handleAvatarSuccess"
+    :before-upload="beforeAvatarUpload">
+        <img v-if="coverUrl" :src="coverUrl" class="avatar">
+        <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+    </el-upload>
     <v-md-editor
         ref="editor"
         v-model="content"
@@ -41,8 +53,18 @@ export default{
     setup(){
         const route=useRoute();
 
+        let url='http://localhost:8000';
+        let uploadUrl='/article/postCover';
+        let getHeaders={
+            'Accept': 'application/json'
+        };
+        let imgInfo=reactive({
+            oldUrl:""
+        })
+ 
         let Post=reactive({
             title:"",
+            coverUrl:"",
             content:"",
             tags:new Map(),
             allTags:[]
@@ -57,6 +79,8 @@ export default{
             .then(res=>{
                 Post.title=res.data[0].title;
                 Post.content=JSON.parse(res.data[0].content);
+                Post.coverUrl=res.data[0].coverUrl;
+                imgInfo.oldUrl=Post.coverUrl;
                 getTagName(res.data[0].tagsId)
                 .then(res=>{
                     res.data.map(t=>{
@@ -94,6 +118,29 @@ export default{
             })
             .catch(err=>console.log(err))
         }
+
+        //拼接封面接口
+       function setUrl(){
+            return url+uploadUrl;
+        }
+        //成功上传封面
+        function handleAvatarSuccess(res) {
+            Post.coverUrl = url+'/'+res.fileInfo.path;
+            imgInfo.oldUrl=Post.coverUrl;
+        }
+        //上传检验
+        function beforeAvatarUpload(file) {
+            const isJPG = file.type === 'image/jpeg';
+            const isLt2M = file.size / 1024 / 1024 < 2;
+
+            if (!isJPG) {
+                this.$message.error('上传头像图片只能是 JPG 格式!');
+            }
+            if (!isLt2M) {
+                this.$message.error('上传头像图片大小不能超过 2MB!');
+            }
+            return isJPG && isLt2M;
+        }
         
         //提交文章或修改
         function post(){
@@ -103,18 +150,19 @@ export default{
                 newTags.push(key)
             newTags=','+newTags.join(',')+',';
             if(route.query.id){
-                modArt(route.query.id,Post.title,JSON.stringify(Post.content),newTags)
+                modArt(route.query.id,Post.title,JSON.stringify(Post.content),newTags,Post.coverUrl)
                 .then(()=>{
                     alert('修改成功！');
                 })
                 .catch(err=>console.log(err))
             }else{
-                postArt(Post.title,JSON.stringify(Post.content),newTags)
+                postArt(Post.title,JSON.stringify(Post.content),newTags,Post.coverUrl)
                 .then(()=>{
                     alert('上传成功！');
                     Post.title="";
-                    Post.content="";
                     Post.tags.clear();
+                    Post.coverUrl=""
+                    Post.content="";
                 })
                 .catch(err=>console.log(err))
             }
@@ -124,10 +172,15 @@ export default{
             ...toRefs(Post),
             inpTag,
             newTagName,
+            getHeaders,
+            imgInfo,
 
             addATag,
             tagExp,
             postTag,
+            setUrl,
+            beforeAvatarUpload,
+            handleAvatarSuccess,
             post,
             expand,
         };
@@ -228,6 +281,34 @@ export default{
     color:#fff;
 }
 
+.avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+    border:0.1rem solid $border-col;
+    margin:1rem;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+    border:0.1rem solid $border-col;
+    margin:1rem;
+  }
+  
 button{
     width:10rem;
     height:3.5rem;

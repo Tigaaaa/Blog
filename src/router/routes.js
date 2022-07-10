@@ -59,6 +59,14 @@ export default[
                 component:()=>import('@/view/serverView/admArt')
             },
             {
+                path:'admAlb',
+                component:()=>import('@/view/serverView/admAlbum')
+            },
+            {
+                path:'anAlbum',
+                component:()=>import('@/view/serverView/anAlbum')
+            },
+            {
                 path:'postArt',
                 component:()=>import('@/view/serverView/postArtView'),
                 meta:{

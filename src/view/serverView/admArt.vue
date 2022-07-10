@@ -3,8 +3,8 @@
     <transition-group name="out">
         <li v-for="art in list" :key="art.id">
             <div class="title"><p class="hid">{{art.title}}</p></div>
-            <button class="mod" @click="modifyArt(art.id,art.title)">修改</button>
-            <button class="del" @click="deleteArt(art.id)">删除</button>
+            <button class="mod" @click="modifyArt(art.id)">修改</button>
+            <button class="del" @click="deleteArt(art.id,art.coverUrl)">删除</button>
         </li>
     </transition-group>
     </ul>
@@ -33,9 +33,9 @@ import {reactive,toRefs} from 'vue'
                 })
             }
 
-            function deleteArt(id){
+            function deleteArt(id,coverUrl){
                 if(confirm("确认删除？")){
-                    delArt(id)
+                    delArt(id,coverUrl)
                     .then(()=>{
                         myList.list=myList.list.filter(a=>{return a.id!=id});
                     })

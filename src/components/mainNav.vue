@@ -8,6 +8,9 @@
         v-show="nav.ok||$store.state.isRoot"
         :class="{cli:navIndex==index}"
         @click="navIndex=index">
+        <el-icon>
+            <component :is="nav.icon"></component>
+        </el-icon>
         {{nav.text}}
             <router-link :to="nav.link"></router-link>
         </li>
@@ -36,13 +39,13 @@ export default{
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     .headImg{
         width:8vw;
         height:8vw;
         border-radius:50%;
         margin:1rem auto;
-        background-image:url(../assets/img2.jpg);
+        background-image:url(http://127.0.0.1:8000/static/profile/img2.jpg);
         background-repeat:no-repeat;
         background-position:center center;
         background-size:cover;
@@ -53,23 +56,37 @@ export default{
     }
     .nav-blk{
         height:10vh;
-        line-height:10vh;
-        text-align:center;
-        border-bottom:0.1rem solid #ccc;
+        border-bottom:0.1rem solid $border-col2;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+
         position:relative;
-    }
-    .nav-blk:hover{
-        background:white;
-    }
-    .nav-blk a{
-        position:absolute;
-        width:100%;
-        height:100%;
-        left:0;
-        top:0;
+        &:hover{
+            background:white;
+        }
+        a{
+            position:absolute;
+            width:100%;
+            height:100%;
+            left:0;
+            top:0;
+        }
+        
+        .el-icon{
+            width:1.5rem;
+            height:1.5rem;
+            margin:0.6rem;
+            color:#aaa;
+        }
     }
     .cli{
         background:white;
+        .el-icon{
+            width:1.6rem;
+            height:1.6rem;
+            color:black;
+        }
     }
     @keyframes navin{
         from{transform:translateX(-100%);opacity:0};
@@ -92,4 +109,5 @@ export default{
         right:-5vh;
         bottom:0;
     }
+    
 </style>

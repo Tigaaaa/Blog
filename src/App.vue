@@ -59,17 +59,14 @@ body{
   white-space:nowrap;
   text-overflow:ellipsis;
 }
-
 .tag{
     padding:0.5rem;
     margin-left:1rem;
     border-radius:0.5rem;
     background-color:$blue-bot;
     user-select:none;
-
     float:left;
 }
-
 @media screen and (max-width:2468px){
   .main-box,.server-box{
       width:80vw;

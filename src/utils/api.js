@@ -2,23 +2,25 @@ import axios from "./request";
 
 export const getList=(offset,limit)=>axios.get('/article/list?offset='+offset+'&limit='+limit);
 export const getCont=(id)=>axios.get('/article/cont?id='+id);
-export const delArt=(id)=>axios.get('/article/delete?id='+id);
-export const postArt=(title,content,ids)=>{
+export const delArt=(id,coverUrl)=>axios.get('/article/delete?id='+id+'&coverUrl='+coverUrl);
+export const postArt=(title,content,ids,coverUrl)=>{
     return axios.post('/article/postArt',{
         params:{
             title:title,
             content:content,
-            ids:ids
+            ids:ids,
+            coverUrl:coverUrl
         }
     });
 }
-export const modArt=(id,title,content,ids)=>{
+export const modArt=(id,title,content,ids,coverUrl)=>{
     return axios.post('/article/modArt',{
         params:{
             id:id,
             title:title,
             content:content,
-            ids:ids
+            ids:ids,
+            coverUrl:coverUrl
         }
     })
 }
@@ -64,6 +66,24 @@ export const postCom=(com)=>{
             fatherId:com.fatherId,
             preId:com.preId,
             preName:com.preName
+        }
+    })
+}
+
+export const getAlbumList=()=>axios.get('/album/getList');
+export const selectAlbum=(id)=>axios.get('/album/selectAlbum?albumId='+id);
+export const createAlbum=(albumName)=>{
+    return axios.post('/album/create',{
+        params:{
+            albumName:albumName
+        }
+    })
+}
+export const postAlbumName=(albumName,albumId)=>{
+    return axios.post('/album/postName',{
+        params:{
+            albumName:albumName,
+            albumId:albumId
         }
     })
 }

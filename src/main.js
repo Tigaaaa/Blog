@@ -1,8 +1,13 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import router from '@/router/index'
-import store from '@/store/index'
+const app = createApp(App)
 
+import router from '@/router/index'
+app.use(router)
+import store from '@/store/index'
+app.use(store)
+
+//editor
 import VueMarkdownEditor from '@kangc/v-md-editor'
 import '@kangc/v-md-editor/lib/style/base-editor.css'
 import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js'
@@ -17,5 +22,14 @@ import Hljs from 'highlight.js'
 
 VueMarkdownEditor.use(vuepressTheme,{Prism})
 VMdPreview.use(githubTheme,{Hljs})
+app.use(VueMarkdownEditor).use(VMdPreview)
 
-createApp(App).use(router).use(store).use(VueMarkdownEditor).use(VMdPreview).mount('#app')
+//引入elementPlus-icons
+import * as ElementIcons from '@element-plus/icons-vue'
+
+for (const [key, component] of Object.entries(ElementIcons)) {
+  app.component(key, component)
+}
+
+//挂载
+app.mount('#app')

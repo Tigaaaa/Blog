@@ -30,11 +30,11 @@ export default{
     setup(){
         const store=new useStore();
 
-        let navlist=[{text:'文章',link:'/user/articleList',ok:true},
-                    {text:'相册',link:'/user/photos',ok:true},
-                    {text:'留言',link:'/user/comment',ok:true},
-                    {text:'登录',link:'/user/login',ok:true},
-                    {text:'管理博客',link:'/server',ok:false}];
+        let navlist=[{icon:'Collection',text:'文章',link:'/user/articleList',ok:true},
+                    {icon:'Picture',text:'相册',link:'/user/photos',ok:true},
+                    {icon:'ChatLineRound',text:'留言',link:'/user/comment',ok:true},
+                    {icon:'User',text:'登录',link:'/user/login',ok:true},
+                    {icon:'Tools',text:'管理博客',link:'/server',ok:false}];
 
         //尝试自动登录
         cookieLog()

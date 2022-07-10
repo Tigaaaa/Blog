@@ -1,6 +1,7 @@
 <template>
     <article class="box">
         <div class='articleCover'>
+            <img :src="coverUrl"/>
             <router-link :to="{
                 path:'/user/article',
                 query:{
@@ -15,11 +16,11 @@
 
     export default{
         name:'articleBox',
-        props:['title','id'],
+        props:['title','id','coverUrl'],
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .box{
     width:100%;
     height:100%;
@@ -34,12 +35,21 @@
 .articleCover{
     width:90%;
     height:85%;
-    background:black;
     position:relative;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
     a{
-        width:90%;
-        height:85%;
+        width:100%;
+        height:100%;
         position:absolute;
+        left:0;
+        top:0;
+    }
+    img{
+        min-width:100%;
+        min-height:100%;
     }
 }
 .title{

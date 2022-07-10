@@ -1,12 +1,15 @@
-let express=require('express')
-let session=require('express-session')
-/*let cors=require('cors')
+const express=require('express')
+const session=require('express-session')
+/*const cors=require('cors')
 app.use(cors());*/
-let bodyParser=require('body-parser')
-let router=require('./router')
+const bodyParser=require('body-parser')
+const router=require('./router')
 
-let app=express()
+const app=express()
 
+//静态资源
+app.use('/static',express.static('./static'))
+//session
 app.use(session({
     name:'session_id',
     secret:'mycookie',
@@ -37,7 +40,7 @@ app.all("*",(req,res,next)=>{
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(router)
-
+//端口
 app.listen(8000,()=>{
     console.log('服务器启动');
 })

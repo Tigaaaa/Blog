@@ -1,8 +1,9 @@
 let db=require('../db/index')
+var fs=require('fs');
 
 exports.postArt=(req,res)=>{
-    var sql='insert into article (title,content,tagsId) values (?,?,?)';
-    db.query(sql,[req.body.params.title,req.body.params.content,req.body.params.ids],(err,data)=>{
+    var sql='insert into article (title,content,tagsId,coverUrl) values (?,?,?,?)';
+    db.query(sql,[req.body.params.title,req.body.params.content,req.body.params.ids,req.body.params.coverUrl],(err,data)=>{
         if(err){
             return res.send('错误：'+err.message)
         }
@@ -14,8 +15,9 @@ exports.postArt=(req,res)=>{
 }
 
 exports.modArt=(req,res)=>{
-    var sql='update article set title=?,content=?,tagsId=? where id=?';
-    db.query(sql,[req.body.params.title,req.body.params.content,req.body.params.ids,req.body.params.id],(err,data)=>{
+    var sql='update article set title=?,content=?,tagsId=?,coverUrl=? where id=?';
+    db.query(sql,[req.body.params.title,req.body.params.content,req.body.params.ids,req.body.params.coverUrl,req.body.params.id],
+    (err,data)=>{
         if(err){
             return res.send('错误：'+err.message)
         }
@@ -29,13 +31,18 @@ exports.delArt=(req,res)=>{
         if(err){
             return res.send('错误：'+err.message)
         }
-        res.send(data);
+        let url='static/cover/'+req.query.coverUrl.split('/').pop();
+        fs.unlink(url,err=>{
+            if(err)
+                return res.send(err.message)
+            res.send(data);
+        })
     })
 }
 
 exports.getArtList=(req,res)=>{
-    var sql1='select id,title from article limit ?,?';
-    var sql2='select id,title from article';
+    var sql1='select id,title,coverUrl from article limit ?,?';
+    var sql2='select id,title,coverUrl from article';
     if(req.query.offset!=-1){
         db.query(sql1,[+req.query.offset,+req.query.limit],(err,data)=>{
             if(err){
@@ -61,4 +68,22 @@ exports.getArtCont=(req,res)=>{
         }
         res.send(data);
     })
+}
+
+exports.postCover=(req,res)=>{
+    if(req.body.oldUrl!=null){
+        console.log(req.body.oldUrl,1);
+        let oldUrl='static/cover/'+req.body.oldUrl.split('/').pop();
+        fs.unlink(oldUrl,err=>{
+            if(err)
+                return res.send(err.message)
+        })
+    }
+    let file=req.file;
+    let fileInfo={};
+    //let path=`static/cover/${Date.now()}${file.filename}.jpg`;
+    //fs.renameSync("./static/cover/"+file.filename,path);
+
+    fileInfo.path=file.destination+'/'+file.filename;
+    res.send({fileInfo});
 }
