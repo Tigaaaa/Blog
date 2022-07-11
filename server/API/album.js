@@ -8,13 +8,23 @@ exports.create=(req,res)=>{
         if(err){
             return res.send({
                 status:1,
-                message:err.message
+                message:"新建相册失败"
             })
         }
-        res.send({
-            status:0,
-            message:"新建相册！"
-        });
+        let sql2="select max(albumId) from album";
+        db.query(sql2,[],(err,data)=>{
+            if(err){
+                return res.send({
+                    status:1,
+                    message:"获取相册id失败"
+                })
+            }
+            res.send({
+                status:0,
+                message:"新建相册成功！",
+                data:data
+            });
+        })
     })
 }
 
@@ -60,7 +70,6 @@ exports.postName=(req,res)=>{
 }
 
 exports.postPhoto=(req,res)=>{
-    console.log(req.body)
     let file=req.file;
     let newp={};
     newp.url=`http://localhost:8000/${file.destination}/${file.filename}`;

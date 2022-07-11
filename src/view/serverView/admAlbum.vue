@@ -2,7 +2,7 @@
     <ul>
         <li class="abox alb-box" v-for="alb in list" :key="alb.albumId">
             <div class="img">
-                <img :title="alb.albumName" :src="alb.photos[0].url+''" onerror="this.src='http://localhost:8000/static/cover/1657275474420-222.186.12.jpg';this.onerror=null"/>
+                <img :title="alb.albumName" :src="alb.photos[0].url||''" onerror="this.src='http://localhost:8000/static/cover/1657275474420-222.186.12.jpg';this.onerror=null"/>
                 <router-link :to="{
                     path:'/server/anAlbum',
                     query:{
@@ -32,10 +32,12 @@
 
 <script>
 import {reactive,toRefs} from 'vue'
+import {useRouter} from 'vue-router'
 import {postAlbumName,getAlbumList,createAlbum} from '@/utils/api'
 export default{
     name:"admAlbum",
     setup(){
+        const router=new useRouter();
         let albumList=reactive({
             inp:false,
             isCreate:false,
@@ -49,9 +51,10 @@ export default{
             .then(res=>{
                 for(let p of res.data){
                     p.photos=JSON.parse(p.photos);
-                    albumList.list.push(p);
+                    if(!p.photos[0])
+                        p.photos.push({url:""})
                 }
-                console.log(albumList.list)
+                albumList.list=res.data;
             })
             .catch(err=>console.log(err))
         }
@@ -66,7 +69,12 @@ export default{
                     if(res.data.status==0){
                         albumList.isCreate=false;
                         albumList.createName="";
-                        //进入新相册
+                        router.push({
+                            path:'/server/anAlbum',
+                            query:{
+                                id:res.data.data[0]["max(albumId)"]
+                            }
+                        });
                     }
                 })
                 .catch(err=>console.log(err.message))
