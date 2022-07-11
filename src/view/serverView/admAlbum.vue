@@ -1,5 +1,6 @@
 <template>
     <ul>
+        <transition-group name="list">
         <li class="abox alb-box" v-for="alb in list" :key="alb.albumId">
             <div class="img">
                 <img :title="alb.albumName" :src="alb.photos[0].url||''" onerror="this.src='http://localhost:8000/static/cover/1657275474420-222.186.12.jpg';this.onerror=null"/>
@@ -10,14 +11,18 @@
                     }
                 }"></router-link>
             </div>
-            <p v-show="!inp" class="title" @dblclick="inp=!inp">{{alb.albumName}}</p>
-            <input v-show="inp" v-model="alb.albumName" @blur="changeName(alb.albumName,alb.albumId)"/>
+            <div class="bottom">
+                <p v-show="!inp" class="title" @dblclick="inp=!inp">{{alb.albumName}}</p>
+                <input v-show="inp" class="title" v-model="alb.albumName" @blur="changeName(alb.albumName,alb.albumId)"/>
+                <el-icon @click="delAlbum(alb.albumId,alb.photos)"><DeleteFilled /></el-icon>
+            </div>
         </li>
-        <li class="abox add-boc" @click="isCreate=true">
+        <li class="abox add-box" key="adm" @click="isCreate=true">
             <el-icon>
                 <Plus/>
             </el-icon>
         </li>
+        </transition-group>
     </ul>
     <div class="create-box" v-show="isCreate">
         <div class="top"><span @click="isCreate=false">x</span></div>
@@ -33,7 +38,7 @@
 <script>
 import {reactive,toRefs} from 'vue'
 import {useRouter} from 'vue-router'
-import {postAlbumName,getAlbumList,createAlbum} from '@/utils/api'
+import {getAlbumList,createAlbum,postAlbumName,deletAlbum} from '@/utils/api'
 export default{
     name:"admAlbum",
     setup(){
@@ -45,7 +50,7 @@ export default{
             list:[]
         });
 
-        //获取列表
+        //获取相册列表
         function getList(){
             getAlbumList()
             .then(res=>{
@@ -87,7 +92,17 @@ export default{
             .finally(()=>getList())
             .catch(err=>console.log(err.message))
         }
-
+        //删除相册
+        function delAlbum(id,photos){
+            if(confirm("确定删除吗？")){
+                deletAlbum(id,JSON.stringify(photos))
+                .then(res=>{
+                    alert(res.data.message);
+                    if(res.data.status==0)
+                        getList();
+                })
+            }
+        }
         
         getList();
         
@@ -96,13 +111,25 @@ export default{
 
             getList,
             createAlb,
-            changeName
+            changeName,
+            delAlbum
         }
     }
 }
 </script>
 
 <style lang="scss" scoped>
+@keyframs out{
+    from{opacity:1;}
+    to{opacity:0;}
+}
+.list-move{
+    transition:all 1s;
+}
+.list-leave-active{
+    animation:out 1s;
+    position:absolute;
+}
 .abox{
     width:25rem;
     height:25rem;
@@ -139,14 +166,29 @@ export default{
             top:0;
         }
     }
-    .title{
-        text-align:center;
+    .bottom{
+        width:90%;
+        .title{
+            text-align:center;
+            float:left;
+        }
+        .el-icon,.el-icon svg{
+            width:2rem;
+            height:2rem;
+            color:$border-col2;
+            float:right;
+            &:hover{
+                color:$border-col;
+            }
+        }
     }
 }
-.el-icon,.el-icon svg{
-    width:15rem;
-    height:15rem;
-    color:$border-col;
+.add-box{
+    .el-icon,.el-icon svg{
+        width:15rem;
+        height:15rem;
+        color:$border-col;
+    }
 }
 
 .create-box{

@@ -8,7 +8,8 @@ exports.create=(req,res)=>{
         if(err){
             return res.send({
                 status:1,
-                message:"新建相册失败"
+                message:"新建相册失败",
+                reason:err.message
             })
         }
         let sql2="select max(albumId) from album";
@@ -16,7 +17,8 @@ exports.create=(req,res)=>{
             if(err){
                 return res.send({
                     status:1,
-                    message:"获取相册id失败"
+                    message:"获取相册id失败",
+                    reason:err.message
                 })
             }
             res.send({
@@ -34,7 +36,8 @@ exports.getList=(req,res)=>{
         if(err){
             return res.send({
                 status:1,
-                message:"获取相册列表失败"
+                message:"获取相册列表失败",
+                reason:err.message
             })
         }
         res.send(data);
@@ -46,7 +49,8 @@ exports.selectAlbum=(req,res)=>{
         if(err){
             return res.send({
                 status:1,
-                message:"获取失败"
+                message:"获取失败",
+                reason:err.message
             })
         }
         res.send(data);
@@ -59,7 +63,8 @@ exports.postName=(req,res)=>{
         if(err){
             return res.send({
                 status:1,
-                message:"修改失败"
+                message:"修改失败",
+                reason:err.message
             })
         }
         res.send({
@@ -83,12 +88,43 @@ exports.postPhoto=(req,res)=>{
         if(err){
             return res.send({
                 status:1,
-                message:"上传失败"
+                message:"上传失败",
+                reason:err.message
             })
         }
         res.send({
             status:0,
             message:"上传成功！"
         });
+    })
+}
+exports.deletAlbum=(req,res)=>{
+    let photos=JSON.parse(req.body.params.photos);
+    for(let p of photos){
+        if(p.url!=""){
+            let url='static/album/'+p.url.split('/').pop();
+            fs.unlink(url,err=>{
+                if(err)
+                    return res.send({
+                        status:1,
+                        message:"删除照片失败！",
+                        reason:err.message
+                    })
+            })
+        }
+    }
+    let sql="delete from album where albumId=?"
+    db.query(sql,[req.body.params.albumId],(err,data)=>{
+        if(err){
+            return res.send({
+                status:1,
+                message:"删除相册失败！",
+                reason:err.message
+            })
+        }
+        res.send({
+            status:0,
+            message:"删除成功"
+        })
     })
 }

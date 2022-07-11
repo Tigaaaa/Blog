@@ -55,5 +55,6 @@ const albumStorage=multer.diskStorage({
 const albumUpload=multer({storage:albumStorage});
 router.post('/album/postPhotos',albumUpload.single("img"),album.postPhoto)
 router.post('/album/postName',album.postName)
+router.post('/album/delet',album.deletAlbum)
 
 module.exports=router

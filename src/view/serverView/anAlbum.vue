@@ -6,6 +6,7 @@
     name='img'
     :data="anAlbum"
     list-type="picture-card"
+    :on-success="handleAvatarSuccess"
     :on-preview="handlePictureCardPreview"
     :on-remove="handleRemove"
   >
@@ -25,7 +26,7 @@ import {selectAlbum} from '@/utils/api'
    name:'anAlbum',
    setup(){
      const route=new useRoute();
-     
+     //upload准备
      let uploadInfo={
        uploadUrl:'http://localhost:8000/album/postPhotos',
        getHeaders:{
@@ -34,20 +35,26 @@ import {selectAlbum} from '@/utils/api'
        dialogVisible: false,
        dialogImageUrl: ''
      }
-
+     //上传图片信息
      let anAlbum=reactive({
        id:route.query.id,
        list:[],
        jsonList:[]
      });
      
-     selectAlbum(anAlbum.id)
-     .then(res=>{
-       anAlbum.jsonList=res.data[0].photos;
-       anAlbum.list=JSON.parse(res.data[0].photos);
-     })
-     .catch(err=>console.log(err.message))
-
+     //获取照片
+     function selectAlb(){
+      selectAlbum(anAlbum.id)
+      .then(res=>{
+        anAlbum.jsonList=res.data[0].photos;
+        anAlbum.list=JSON.parse(res.data[0].photos);
+      })
+      .catch(err=>console.log(err.message))
+     }
+     function handleAvatarSuccess(){
+       selectAlb();
+     }
+     //预览
     function handlePictureCardPreview(file) {
       uploadInfo.dialogVisible = true
       uploadInfo.dialogImageUrl = file.url
@@ -55,11 +62,14 @@ import {selectAlbum} from '@/utils/api'
     function handleRemove(){
       
     }
+    selectAlb();
 
      return {
        ...uploadInfo,
        anAlbum,
 
+       selectAlb,
+       handleAvatarSuccess,
        handlePictureCardPreview,
        handleRemove,
      }
