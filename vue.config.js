@@ -5,7 +5,6 @@ const { ElementPlusResolver } = require('unplugin-vue-components/resolvers')
 
 module.exports = defineConfig({
   transpileDependencies: true,
-
   css:{
     loaderOptions:{
       sass:{
@@ -21,6 +20,6 @@ module.exports = defineConfig({
       Components({
         resolvers: [ElementPlusResolver()]
       })
-    ]
+    ],
   }
 })

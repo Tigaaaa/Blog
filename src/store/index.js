@@ -1,14 +1,6 @@
 import {createStore} from 'vuex'
-import { getList } from '@/utils/api';
 
 const actions={
-    sel(context,limit){
-        getList(limit)
-    .then((res)=>{
-        context.commit('Sel',res)})
-    .catch((err)=>console.log(err));
-    },
-
     login(context,arg){
         context.commit('Login',arg);
     },
@@ -18,10 +10,6 @@ const actions={
 }
 
 const mutations={
-    Sel(state,res){
-        state.artList.push(...res.data);
-        state.limit+=5;
-    },
     Login(state,arg){
         state.name=arg.name;
         state.login=true;
@@ -36,8 +24,6 @@ const mutations={
 }
 
 const state={
-    artList:[],
-    limit:0,
     name:'用户未登录',
     login:false,
     isRoot:false

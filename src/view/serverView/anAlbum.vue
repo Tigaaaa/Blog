@@ -22,13 +22,14 @@
 import {reactive} from 'vue'
 import {useRoute} from 'vue-router'
 import {selectAlbum,deletPhotos} from '@/utils/api'
+import axios from '@/utils/request'
  export default {
    name:'anAlbum',
    setup(){
      const route=new useRoute();
      //upload准备
      let uploadInfo={
-       uploadUrl:'http://localhost:8000/album/postPhotos',
+       uploadUrl:axios.defaults.baseURL+'/album/postPhotos',
        getHeaders:{
          'Accept': 'application/json'
        },

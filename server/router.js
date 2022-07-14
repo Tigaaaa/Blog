@@ -67,7 +67,17 @@ const profileStorage=multer.diskStorage({
         cb(null,'img2.jpg')
     }
 })
+const backStorage=multer.diskStorage({
+    destination:function(req,file,cb){
+        cb(null,'static/background')
+    },
+    filename:function(req,file,cb){
+        cb(null,'img3.jpg')
+    }
+})
 const profileUpload=multer({storage:profileStorage});
+const backUpload=multer({storage:backStorage});
 router.post('/root/postProfile',profileUpload.single('profile'),root.postProfile)
+router.post('/root/postBackground',backUpload.single('background'),root.postBackground)
 
 module.exports=router

@@ -23,7 +23,7 @@
     </div>
     <el-upload
     class="avatar-uploader"
-    :action="url+uploadUrl"
+    :action="baseURL+uploadUrl"
     :headers="getHeaders"
     :data="imgInfo"
     name="img"
@@ -47,6 +47,7 @@
 import {reactive,toRefs,ref} from 'vue'
 import {useRoute} from 'vue-router'
 import {getTags,addTag,getCont,getTagName,postArt,modArt} from '@/utils/api.js'
+import axios from '@/utils/request'
 
 export default{
     name:'postArtView',
@@ -54,7 +55,7 @@ export default{
         const route=useRoute();
 
         let uploadInfo=reactive({
-            url:"http://localhost:8000",
+            baseURL:axios.defaults.baseURL,
             uploadUrl:'/article/postCover',
             getHeaders:{
             'Accept': 'application/json'
@@ -123,7 +124,7 @@ export default{
         }
         //成功上传封面
         function handleAvatarSuccess(res) {
-            Post.coverUrl = uploadInfo.url+'/'+res.fileInfo.path;
+            Post.coverUrl = uploadInfo.baseURL+'/'+res.fileInfo.path;
             imgInfo.oldUrl=Post.coverUrl;
         }
         //上传检验
