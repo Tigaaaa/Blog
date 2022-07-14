@@ -153,6 +153,7 @@ export default{
         img{
             min-height:100%;
             min-width:100%;
+            object-fit:cover;
             position:absolute;
             left:50%;
             top:50%;

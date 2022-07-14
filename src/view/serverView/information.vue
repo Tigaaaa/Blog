@@ -1,10 +1,10 @@
 <template>
     <el-upload
     class="avatar-uploader"
-    :action="setUrl()"
+    :action="uploadUrl"
     :headers="getHeaders"
     :data="avatarForm"
-    name="img"
+    name="profile"
     :show-file-list="false"
     :on-success="handleAvatarSuccess"
     :before-upload="beforeAvatarUpload">
@@ -14,26 +14,22 @@
 </template>
 
 <script>
-import {ref,reactive} from 'vue'
+import {reactive} from 'vue'
     export default{
         name:'informationView',
         setup(){
-            let imageUrl=ref('');
-            let url='http://localhost:8000';
-            let uploadUrl='/img/postImg';
+            let imageUrl="http://localhost:8000/static/profile/img2.jpg";
+            let uploadUrl='http://localhost:8000/root/postProfile';
             let avatarForm=reactive({
                 userName:'name',
             })
             let getHeaders={
                     'Accept': 'application/json'
                 };
-            function setUrl(){
-                return url+uploadUrl;
-            }
 
             //成功上传
             function handleAvatarSuccess(res) {
-                imageUrl.value = url+'/'+res.fileInfo.path;
+                alert(res.message);
             }
             //上传检验
             function beforeAvatarUpload(file) {
@@ -52,10 +48,10 @@ import {ref,reactive} from 'vue'
 
             return {
                 imageUrl,
+                uploadUrl,
                 avatarForm,
                 getHeaders,
 
-                setUrl,
                 handleAvatarSuccess,
                 beforeAvatarUpload
             }

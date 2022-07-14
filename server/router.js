@@ -6,6 +6,7 @@ let tag=require('./API/tag')
 let comment=require('./API/comment')
 let img=require('./API/img')
 let album=require('./API/album')
+let root=require('./API/root')
 const multer = require('multer');
 
 router.post('/login/register',login.register)
@@ -56,5 +57,17 @@ const albumUpload=multer({storage:albumStorage});
 router.post('/album/postPhotos',albumUpload.single("img"),album.postPhoto)
 router.post('/album/postName',album.postName)
 router.post('/album/delet',album.deletAlbum)
+router.post('/album/deletPhotos',album.deletPhoto)
+
+const profileStorage=multer.diskStorage({
+    destination:function(req,file,cb){
+        cb(null,'static/profile')
+    },
+    filename:function(req,file,cb){
+        cb(null,'img2.jpg')
+    }
+})
+const profileUpload=multer({storage:profileStorage});
+router.post('/root/postProfile',profileUpload.single('profile'),root.postProfile)
 
 module.exports=router

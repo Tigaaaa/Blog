@@ -24,11 +24,11 @@ import mainNav from '@/components/mainNav'
 export default{
     name:'serverView',
     setup(){
-        let navlist=[{icon:'Files',text:'博客管理',link:'/server/admArt'},
-                    {icon:'Picture',text:'相册管理',link:'/server/admAlb'},
-                    {icon:'User',text:'个人信息',link:'/server/information'},
-                    {icon:'EditPen',text:'写博客',link:'/server/postArt'},
-                    {icon:'ArrowLeftBold',text:'返回主页',link:'/user'}];
+        let navlist=[{icon:'Files',text:'博客管理',to:'/server/admArt'},
+                    {icon:'Picture',text:'相册管理',to:'/server/admAlb'},
+                    {icon:'User',text:'个人信息',to:'/server/information'},
+                    {icon:'EditPen',text:'写博客',to:'/server/postArt'},
+                    {icon:'ArrowLeftBold',text:'返回主页',to:'/user'}];
         return {
             navlist
         }

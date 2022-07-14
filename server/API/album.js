@@ -98,6 +98,37 @@ exports.postPhoto=(req,res)=>{
         });
     })
 }
+exports.deletPhoto=(req,res)=>{
+    let url='static/album/'+req.body.params.url.split('/').pop();
+    fs.unlink(url,err=>{
+        if(err)
+            return res.send({
+                status:1,
+                message:"删除失败！",
+                reason:err.message
+            })
+        let photos=JSON.parse(req.body.params.photos);
+        photos=photos.filter(p=>{
+            return p.url!=req.body.params.url;
+        })
+        photos=JSON.stringify(photos);
+        let sql="update album set photos=? where albumId=?";
+        db.query(sql,[photos,req.body.params.albumId],(err,data)=>{
+            if(err){
+                return res.send({
+                    status:1,
+                    message:"删除失败",
+                    reason:err.message
+                })
+            }
+            res.send({
+                status:0,
+                message:"删除成功！"
+            });
+        })
+    })
+    
+}
 exports.deletAlbum=(req,res)=>{
     let photos=JSON.parse(req.body.params.photos);
     for(let p of photos){

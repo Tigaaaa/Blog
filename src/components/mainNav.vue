@@ -6,13 +6,12 @@
         <transition-group name='cli'>
         <li class="nav-blk blk" v-for="(nav,index) in navlist" :key=index
         v-show="nav.ok||$store.state.isRoot"
-        :class="{cli:navIndex==index}"
-        @click="navIndex=index">
+        :class="{cli:nav.to==route.path}">
         <el-icon>
             <component :is="nav.icon"></component>
         </el-icon>
         {{nav.text}}
-            <router-link :to="nav.link"></router-link>
+            <router-link :to="nav.to"></router-link>
         </li>
     </transition-group>
     </ul>
@@ -21,18 +20,19 @@
 <script>
 import {ref,watch} from 'vue'
 import {useStore} from 'vuex'
+import {useRoute} from 'vue-router'
 
 export default{
     name:'mainNav',
     props:['navlist'],
     setup(){
         const store=new useStore();
-        let navIndex=ref(0);
+        const route=new useRoute();
         let name=ref(store.state.name);
 
         watch(()=>store.state.name,(newName)=>{name.value=newName});
         return {
-            navIndex,
+            route,
             name
             };
     },

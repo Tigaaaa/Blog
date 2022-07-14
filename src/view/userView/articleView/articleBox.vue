@@ -31,28 +31,30 @@
     flex-direction:column;
     align-items:center;
     justify-content:center;
-}
-.articleCover{
-    width:90%;
-    height:85%;
-    position:relative;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    overflow:hidden;
-    a{
-        width:100%;
-        height:100%;
-        position:absolute;
-        left:0;
-        top:0;
+    .articleCover{
+        width:90%;
+        height:85%;
+        position:relative;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        overflow:hidden;
+        img{
+            min-width:100%;
+            min-height:100%;
+            object-fit:cover;
+        }
+        a{
+            width:100%;
+            height:100%;
+            position:absolute;
+            left:0;
+            top:0;
+        }
     }
-    img{
-        min-width:100%;
-        min-height:100%;
+    .title{
+        font-size:2.5rem;
     }
 }
-.title{
-    font-size:2.5rem;
-}
+
 </style>

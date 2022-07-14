@@ -46,7 +46,7 @@ import useLoad from '@/hook/useLoad'
         justify-content:space-evenly;
         li{
             width:90%;
-            height:25rem;
+            height:50rem;
             margin:1.5rem 0;
         }
     }

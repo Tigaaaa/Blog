@@ -95,3 +95,12 @@ export const deletAlbum=(albumId,photos)=>{
         }
     })
 }
+export const deletPhotos=(url,photos,id)=>{
+    return axios.post('/album/deletPhotos',{
+        params:{
+            url:url,
+            photos:photos,
+            albumId:id
+        }
+    })
+}

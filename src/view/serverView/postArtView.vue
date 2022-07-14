@@ -23,7 +23,7 @@
     </div>
     <el-upload
     class="avatar-uploader"
-    :action="setUrl()"
+    :action="url+uploadUrl"
     :headers="getHeaders"
     :data="imgInfo"
     name="img"
@@ -53,11 +53,14 @@ export default{
     setup(){
         const route=useRoute();
 
-        let url='http://localhost:8000';
-        let uploadUrl='/article/postCover';
-        let getHeaders={
+        let uploadInfo=reactive({
+            url:"http://localhost:8000",
+            uploadUrl:'/article/postCover',
+            getHeaders:{
             'Accept': 'application/json'
-        };
+            }
+        })
+        
         let imgInfo=reactive({
             oldUrl:""
         })
@@ -118,14 +121,9 @@ export default{
             })
             .catch(err=>console.log(err))
         }
-
-        //拼接封面接口
-       function setUrl(){
-            return url+uploadUrl;
-        }
         //成功上传封面
         function handleAvatarSuccess(res) {
-            Post.coverUrl = url+'/'+res.fileInfo.path;
+            Post.coverUrl = uploadInfo.url+'/'+res.fileInfo.path;
             imgInfo.oldUrl=Post.coverUrl;
         }
         //上传检验
@@ -170,15 +168,14 @@ export default{
 
         return {
             ...toRefs(Post),
+            ...toRefs(uploadInfo),
             inpTag,
             newTagName,
-            getHeaders,
             imgInfo,
 
             addATag,
             tagExp,
             postTag,
-            setUrl,
             beforeAvatarUpload,
             handleAvatarSuccess,
             post,

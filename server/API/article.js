@@ -71,18 +71,12 @@ exports.getArtCont=(req,res)=>{
 }
 
 exports.postCover=(req,res)=>{
-    if(req.body.oldUrl!=null){
-        console.log(req.body.oldUrl,1);
+    if(req.body.oldUrl!='null'){
         let oldUrl='static/cover/'+req.body.oldUrl.split('/').pop();
-        fs.unlink(oldUrl,err=>{
-            if(err)
-                return res.send(err.message)
-        })
+        fs.unlinkSync(oldUrl);
     }
     let file=req.file;
     let fileInfo={};
-    //let path=`static/cover/${Date.now()}${file.filename}.jpg`;
-    //fs.renameSync("./static/cover/"+file.filename,path);
 
     fileInfo.path=file.destination+'/'+file.filename;
     res.send({fileInfo});

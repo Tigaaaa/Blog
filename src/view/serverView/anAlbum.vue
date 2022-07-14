@@ -21,7 +21,7 @@
 <script>
 import {reactive} from 'vue'
 import {useRoute} from 'vue-router'
-import {selectAlbum} from '@/utils/api'
+import {selectAlbum,deletPhotos} from '@/utils/api'
  export default {
    name:'anAlbum',
    setup(){
@@ -59,9 +59,17 @@ import {selectAlbum} from '@/utils/api'
       uploadInfo.dialogVisible = true
       uploadInfo.dialogImageUrl = file.url
     }
-    function handleRemove(){
-      
+    //删除
+    function handleRemove(file){
+      deletPhotos(file.url,JSON.stringify(anAlbum.list),anAlbum.id)
+      .then(res=>{
+        alert(res.data.message);
+        if(res.data.status==0)
+          selectAlb();
+      })
+      .catch(err=>console.log(err.message))
     }
+
     selectAlb();
 
      return {

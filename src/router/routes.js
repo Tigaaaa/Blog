@@ -30,8 +30,12 @@ export default[
                 component:()=>import('@/view/userView/articleView/anArticle')
             },
             {
-                path:'photos',
-                component:()=>import('@/view/userView/photosView/photosList')
+                path:'album',
+                component:()=>import('@/view/userView/albumView/albumList')
+            },
+            {
+                path:'anAlbum',
+                component:()=>import('@/view/userView/albumView/anAlbum')
             },
             {
                 path:'comment',
@@ -49,6 +53,7 @@ export default[
     {
         path:'/server',
         component:()=>import('@/view/serverView/serverView'),
+        meta:{isServer:true},
         children:[
             {
                 path:'/server',
@@ -83,5 +88,4 @@ export default[
             },
         ]
     }
-    
-    ]
+]
